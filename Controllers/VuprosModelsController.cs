@@ -54,6 +54,7 @@ namespace TSP_Uni_Listovki.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //Qvno tuk idva informaciqta ot formata. Shte trqbva po nqkakuv nachin da suzdavame 3-4 Otgovora i da gi svurzvame s tozi vupros
         public async Task<IActionResult> Create([Bind("id,uslovie,img,tochki")] VuprosModel vuprosModel)
         {
             if (ModelState.IsValid)
