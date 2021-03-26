@@ -1,0 +1,42 @@
+﻿@model Listovki_TSP_Uni.Models.OtgovorModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>OtgovorModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.izobrajenie)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.izobrajenie)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.veren)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.veren)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vupros)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vupros.id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

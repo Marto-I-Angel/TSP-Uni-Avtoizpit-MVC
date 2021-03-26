@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Listovki_TSP_Uni.Models.OtgovorModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.izobrajenie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.veren)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vupros)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.izobrajenie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.veren)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vupros.id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
