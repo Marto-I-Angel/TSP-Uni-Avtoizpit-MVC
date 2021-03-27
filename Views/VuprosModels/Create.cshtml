@@ -1,5 +1,4 @@
 ﻿@model Listovki_TSP_Uni.Models.VuprosModel
-
 @{
     ViewData["Title"] = "Create";
 }
@@ -10,7 +9,29 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        @using (Html.BeginForm("AddVupros","VuprosModelsController"))
+        {
+            @Html.TextBoxFor(s => s.uslovie);
+            @Html.TextBoxFor(s => s.img);
+            @Html.TextBoxFor(s => s.tochki);
+            
+            ICollection<Listovki_TSP_Uni.Models.OtgovorModel> otgovori = new List<Listovki_TSP_Uni.Models.OtgovorModel>();  //not so sure about this
+            for (int i = 0; i < 4; i++)
+            {
+                //Ne raboti po nachina po koito se iska. Trqbva nqkak da predadem info za da suzdade 
+                //WHY IS IT SO FUCKING HARD TO PASS A STUPID ARRAY OF OBJECTS. THIS IS RIDICULOUS.
+
+
+                //Listovki_TSP_Uni.Models.OtgovorModel otgovor = new Listovki_TSP_Uni.Models.OtgovorModel();
+                @Html.TextBoxFor(s => s.Otgovori.ElementAt(i).Content);
+                @Html.CheckBoxFor(s => s.Otgovori.ElementAt(i).veren);
+                //.Add(otgovor);
+            }
+            //Model.Otgovori = otgovori;
+
+            <input type="submit" value="Generate report" />
+        }
+        @*<form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="uslovie" class="control-label"></label>
@@ -27,11 +48,42 @@
                 <input asp-for="tochki" class="form-control" />
                 <span asp-validation-for="tochki" class="text-danger"></span>
             </div>
-            <!--Trqbva da pravim otgovorori koito da se commitnat kum bazata danni i da se svurjat s vuprosa-->
+            <div class="custom-file">
+                <label asp-for="img" class="control-label"></label>
+                <input asp-for="img" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+                <span asp-validation-for="img" class="text-danger"></span>
+            </div>
+
+            Trqbva da pravim otgovorori koito da se commitnat kum bazata danni i da se svurjat s vuprosa
+            <div class="otgovor-container">
+                @for (int i = 0; i < 4; i++)
+                {
+                    <div class="form-group">
+                        <label asp-for="Otgovori.ElementAt(i).Content" class="control-label"></label>
+                        <input asp-for="Otgovori.ElementAt(i).Content" class="form-control" />
+                        <span asp-validation-for="Otgovori.ElementAt(i).Content" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Otgovori.ElementAt(i).veren" class="control-label"></label>
+                        <input asp-for="Otgovori.ElementAt(i).veren" class="form-control" />
+                        <span asp-validation-for="Otgovori.ElementAt(i).veren" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Otgovori.ElementAt(i).izobrajenie" class="control-label"></label>
+                        <input asp-for="Otgovori.ElementAt(i).izobrajenie" class="form-control" />
+                        <span asp-validation-for="Otgovori.ElementAt(i).izobrajenie" class="text-danger"></span>
+                    </div>
+                }
+            </div>
+
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </form>*@
+
     </div>
 </div>
 

@@ -12,5 +12,6 @@ namespace Listovki_TSP_Uni.Models
         public bool veren { get; set; }
         public int VuprosID { get; set; }
         public virtual VuprosModel Vupros { get; set; }
+        public OtgovorModel() { }
     }
 }

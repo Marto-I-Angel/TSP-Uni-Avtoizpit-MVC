@@ -5,6 +5,7 @@
     <UserSecretsId>aspnet-TSP_Uni_Listovki-33662B68-61DE-4046-ACA7-D4445B07A8B7</UserSecretsId>
     <RootNamespace>TSP_Uni_Listovki</RootNamespace>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <StartupObject>TSP_Uni_Listovki.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
