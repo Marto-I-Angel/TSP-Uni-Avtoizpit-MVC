@@ -55,29 +55,34 @@ namespace TSP_Uni_Listovki.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //Qvno tuk idva informaciqta ot formata. Shte trqbva po nqkakuv nachin da suzdavame 3-4 Otgovora i da gi svurzvame s tozi vupros
-        public async Task<IActionResult> Create(VuprosModel vuprosModel, ICollection<OtgovorModel> otgovor) // mojje bi trqbva da gi dobavim v parametrite?
+        public async Task<IActionResult> Create(VuprosModel vuprosModel, 
+            string otgovorContent1,
+            string otgovorContent2,
+            string otgovorContent3,
+            string otgovorContent4
+            )
         {
 
             if (ModelState.IsValid)
             {
-//                VuprosModel model = new VuprosModel
-//              {
-//                uslovie = vuprosModel.uslovie,
-//              tochki = vuprosModel.tochki,
-//            img = vuprosModel.img,
-//          Otgovori = vuprosModel.Otgovori,
-//    };
-                //Moje bi?
+                List<OtgovorModel> otgovori = new List<OtgovorModel>();
+                otgovori.Add(new OtgovorModel(otgovorContent1));
+                otgovori.Add(new OtgovorModel(otgovorContent2));
+                otgovori.Add(new OtgovorModel(otgovorContent3));
+                otgovori.Add(new OtgovorModel(otgovorContent4));
 
-                foreach(OtgovorModel otgovorModel in otgovor)   //pochti. trqbva da stignem do informaciqta podadena ot view-to
+                foreach (OtgovorModel otgovorModel in otgovori)   //pochti. trqbva da stignem do informaciqta podadena ot view-to
                 {
                     if (otgovorModel.Content != "")
                     {
                         otgovorModel.VuprosID = vuprosModel.id;         //moje bi  x2?????
                         otgovorModel.Vupros = vuprosModel;
                         _context.Add(otgovorModel);
+                        //vuprosModel.Otgovori.Add(otgovorModel);
                     }
                 }
+                await _context.SaveChangesAsync();
+
                 _context.Add(vuprosModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

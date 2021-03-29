@@ -13,5 +13,13 @@ namespace Listovki_TSP_Uni.Models
         public int VuprosID { get; set; }
         public virtual VuprosModel Vupros { get; set; }
         public OtgovorModel() { }
+
+        public OtgovorModel(string otgovorModel1)
+        {
+            Random rand = new Random();
+            //this.id = rand.Next();
+            this.Content = otgovorModel1;
+            
+        }
     }
 }

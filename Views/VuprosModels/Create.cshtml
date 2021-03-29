@@ -9,25 +9,20 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        @using (Html.BeginForm("AddVupros","VuprosModelsController"))
+        @using (Html.BeginForm())
         {
             @Html.TextBoxFor(s => s.uslovie);
             @Html.TextBoxFor(s => s.img);
             @Html.TextBoxFor(s => s.tochki);
-            
+
             ICollection<Listovki_TSP_Uni.Models.OtgovorModel> otgovori = new List<Listovki_TSP_Uni.Models.OtgovorModel>();  //not so sure about this
-            for (int i = 0; i < 4; i++)
-            {
-                //Ne raboti po nachina po koito se iska. Trqbva nqkak da predadem info za da suzdade 
-                //WHY IS IT SO FUCKING HARD TO PASS A STUPID ARRAY OF OBJECTS. THIS IS RIDICULOUS.
 
 
-                //Listovki_TSP_Uni.Models.OtgovorModel otgovor = new Listovki_TSP_Uni.Models.OtgovorModel();
-                @Html.TextBoxFor(s => s.Otgovori.ElementAt(i).Content);
-                @Html.CheckBoxFor(s => s.Otgovori.ElementAt(i).veren);
-                //.Add(otgovor);
-            }
-            //Model.Otgovori = otgovori;
+            <input type="text" name="otgovorContent1" />
+            <input type="text" name="otgovorContent2" />
+            <input type="text" name="otgovorContent3" />
+            <input type="text" name="otgovorContent4" />
+
 
             <input type="submit" value="Generate report" />
         }
