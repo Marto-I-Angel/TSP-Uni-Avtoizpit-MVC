@@ -71,14 +71,18 @@ namespace TSP_Uni_Listovki.Controllers
                 otgovori.Add(new OtgovorModel(otgovorContent3));
                 otgovori.Add(new OtgovorModel(otgovorContent4));
 
+                OtgovorModelsController otgovorController = new OtgovorModelsController(_context);
+
+
+
                 foreach (OtgovorModel otgovorModel in otgovori)   //pochti. trqbva da stignem do informaciqta podadena ot view-to
                 {
                     if (otgovorModel.Content != "")
                     {
-                        otgovorModel.VuprosID = vuprosModel.id;         //moje bi  x2?????
-                        otgovorModel.Vupros = vuprosModel;
-                        _context.Add(otgovorModel);
-                        //vuprosModel.Otgovori.Add(otgovorModel);
+                        otgovorModel.VuprosID = vuprosModel.id;
+                        //otgovorModel.Vupros = vuprosModel;
+                        await otgovorController.Create(otgovorModel);
+                        vuprosModel.Otgovori.Add(otgovorModel);
                     }
                 }
                 await _context.SaveChangesAsync();
