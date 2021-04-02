@@ -12,6 +12,7 @@ namespace TSP_Uni_Listovki.Controllers
 {
     public class OtgovorModelsController : Controller
     {
+        public static int vuprosId;
         private readonly ApplicationDbContext _context;
 
         public OtgovorModelsController(ApplicationDbContext context)
@@ -57,16 +58,24 @@ namespace TSP_Uni_Listovki.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Content,izobrajenie,veren,VuprosID")] OtgovorModel otgovorModel)
+        public async Task<IActionResult> Create(/*[Bind("id,Content,izobrajenie,veren,VuprosID")]*/ ICollection<string> otgovorContent)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(otgovorModel);
+                List<OtgovorModel> otgovorModels = new List<OtgovorModel>();
+                foreach(String content in otgovorContent)
+                {
+                    otgovorModels.Add(new OtgovorModel(content,vuprosId));
+                }
+
+                foreach(OtgovorModel otgovorModel in otgovorModels) {
+                    _context.Add(otgovorModel);
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VuprosID"] = new SelectList(_context.Set<VuprosModel>(), "id", "id", otgovorModel.VuprosID);
-            return View(otgovorModel);
+            //ViewData["VuprosID"] = new SelectList(_context.Set<VuprosModel>(), "id", "id", otgovorModel.VuprosID);
+            return View();
         }
 
         // GET: OtgovorModels/Edit/5

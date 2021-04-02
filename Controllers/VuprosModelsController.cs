@@ -55,41 +55,14 @@ namespace TSP_Uni_Listovki.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //Qvno tuk idva informaciqta ot formata. Shte trqbva po nqkakuv nachin da suzdavame 3-4 Otgovora i da gi svurzvame s tozi vupros
-        public async Task<IActionResult> Create(VuprosModel vuprosModel, 
-            string otgovorContent1,
-            string otgovorContent2,
-            string otgovorContent3,
-            string otgovorContent4
-            )
+        public async Task<IActionResult> Create(VuprosModel vuprosModel)
         {
-
             if (ModelState.IsValid)
             {
-                List<OtgovorModel> otgovori = new List<OtgovorModel>();
-                otgovori.Add(new OtgovorModel(otgovorContent1));
-                otgovori.Add(new OtgovorModel(otgovorContent2));
-                otgovori.Add(new OtgovorModel(otgovorContent3));
-                otgovori.Add(new OtgovorModel(otgovorContent4));
-
-                OtgovorModelsController otgovorController = new OtgovorModelsController(_context);
-
-
-
-                foreach (OtgovorModel otgovorModel in otgovori)   //pochti. trqbva da stignem do informaciqta podadena ot view-to
-                {
-                    if (otgovorModel.Content != "")
-                    {
-                        otgovorModel.VuprosID = vuprosModel.id;
-                        //otgovorModel.Vupros = vuprosModel;
-                        await otgovorController.Create(otgovorModel);
-                        vuprosModel.Otgovori.Add(otgovorModel);
-                    }
-                }
-                await _context.SaveChangesAsync();
-
                 _context.Add(vuprosModel);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                OtgovorModelsController.vuprosId = vuprosModel.id;
+                return RedirectToAction("Create","OtgovorModels");
             }
             return View(vuprosModel);
         }
