@@ -14,29 +14,29 @@
             <div class="d-inline-flex">
                 @for (int i = 0; i < 4; i++)
                 {
-                <div class="flex-column">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Content" class="control-label"></label>
-                        <input class="form-control" type="text" name="otgovorContent" />
-                        <span asp-validation-for="Content" class="text-danger"></span>
+                    <div class="flex-column">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Content" class="control-label"></label>
+                              <input class="form-control" type="text" name="otgovorContent" />
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="izobrajenie" class="control-label"></label>
+                                <input name="otgovorIzobrajenie" class="form-control" type="file" />
+                            <span asp-validation-for="izobrajenie" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" name="otgovorVeren" type="checkbox"/> @Html.DisplayNameFor(model => model.veren)
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                    <label asp-for="izobrajenie" class="control-label"></label>
-                    <input name="otgovorIzobrajenie" class="form-control" />
-                    <span asp-validation-for="izobrajenie" class="text-danger"></span>
+                 }
                 </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" name="otgovorVeren" type="checkbox"/> @Html.DisplayNameFor(model => model.veren)
-                    </label>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
-                </div>
-                    }
-                </div>
-                            <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
-                            </div>
                         </form>
                 </div>
             </div>
