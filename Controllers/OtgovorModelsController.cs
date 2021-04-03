@@ -58,14 +58,15 @@ namespace TSP_Uni_Listovki.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("id,Content,izobrajenie,veren,VuprosID")]*/ ICollection<string> otgovorContent)
-        {
+        public async Task<IActionResult> Create(ICollection<string> otgovorContent, ICollection<string> otgovorVeren, ICollection<string> otgovorIzobrajenie)
+        {   //problem:  checkbox-a vrushta ili null ili string on, v kraq na kraishtata e mnogo neudobno.
             if (ModelState.IsValid)
             {
                 List<OtgovorModel> otgovorModels = new List<OtgovorModel>();
-                foreach(String content in otgovorContent)
+                for(int i=0; i<4; i++)
                 {
-                    otgovorModels.Add(new OtgovorModel(content,vuprosId));
+                    if(otgovorContent.ElementAt(i)!="" || otgovorIzobrajenie.ElementAt(i)!="")
+                    otgovorModels.Add(new OtgovorModel(otgovorContent.ElementAt(i), otgovorIzobrajenie.ElementAt(i), /*(otgovorVeren.ElementAt(i)=="on")*/ false, vuprosId));
                 }
 
                 foreach(OtgovorModel otgovorModel in otgovorModels) {

@@ -63,14 +63,6 @@ namespace TSP_Uni_Listovki.Controllers
                 var all = _context.VuprosModel.ToList();
 
                 var listovka = generateListovka(all);
-                
-                foreach(VuprosModel vupros in listovka)
-                {
-                    //vupros.ListovkaID = listovkaModel.id;  << dava greshka, no trqbva da im assignem listovka.
-                    //_context.Update(vupros); mai ne e nujno
-                }
-
-                //await _context.SaveChangesAsync();
 
                 listovkaModel.timestamp = DateTime.Now;
                 listovkaModel.tochki = 0;
@@ -79,6 +71,18 @@ namespace TSP_Uni_Listovki.Controllers
                 listovkaModel.userName=user.Name;
 
                 _context.Add(listovkaModel);
+                await _context.SaveChangesAsync();
+
+
+
+                foreach (VuprosModel vupros in listovka)
+                {
+                    VuprosiZaListovka vuprosiZaListovka = new VuprosiZaListovka();
+                    vuprosiZaListovka.ListovkaID = listovkaModel.id;
+                    vuprosiZaListovka.VuprosId = vupros.id;
+                    _context.Add(vuprosiZaListovka);
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

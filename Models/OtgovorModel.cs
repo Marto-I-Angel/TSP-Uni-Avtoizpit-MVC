@@ -14,10 +14,12 @@ namespace Listovki_TSP_Uni.Models
         public virtual VuprosModel Vupros { get; set; }
         public OtgovorModel() { }
 
-        public OtgovorModel(string otgovorModel1,int vuprosId)
+        public OtgovorModel(string otgovorContent,string otgovorIzobrajenie,bool otgovorVeren,int vuprosId)
         {
             this.VuprosID = vuprosId;
-            this.Content = otgovorModel1;
+            this.Content = otgovorContent;
+            this.izobrajenie = otgovorIzobrajenie;
+            this.veren = otgovorVeren;
             
         }
     }

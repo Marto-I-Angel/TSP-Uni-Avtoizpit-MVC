@@ -55,10 +55,11 @@ namespace TSP_Uni_Listovki.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //Qvno tuk idva informaciqta ot formata. Shte trqbva po nqkakuv nachin da suzdavame 3-4 Otgovora i da gi svurzvame s tozi vupros
-        public async Task<IActionResult> Create(VuprosModel vuprosModel)
+        public async Task<IActionResult> Create(VuprosModel vuprosModel, string img)
         {
             if (ModelState.IsValid)
             {
+                vuprosModel.img = img;
                 _context.Add(vuprosModel);
                 await _context.SaveChangesAsync();
                 OtgovorModelsController.vuprosId = vuprosModel.id;

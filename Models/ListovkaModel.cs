@@ -10,8 +10,7 @@ namespace Listovki_TSP_Uni.Models
         public int id { get; set; }
         public DateTime timestamp { get; set; }
         public int tochki { get; set; }
-        public virtual ICollection<VuprosModel> Vuprosi { get; set; }
-        public string userName { get; internal set; }
+        public string userName { get; set; }
 
         public ListovkaModel() { }
     }

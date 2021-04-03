@@ -10,8 +10,8 @@ using TSP_Uni_Listovki.Data;
 namespace TSP_Uni_Listovki.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210402171708_userAndListovka")]
-    partial class userAndListovka
+    [Migration("20210403094456_generatingListovka")]
+    partial class generatingListovka
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,9 +75,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ListovkaID")
-                        .HasColumnType("int");
-
                     b.Property<string>("img")
                         .HasColumnType("nvarchar(max)");
 
@@ -88,8 +85,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("ListovkaID");
 
                     b.ToTable("VuprosModel");
                 });
@@ -305,15 +300,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                     b.Navigation("Vupros");
                 });
 
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosModel", b =>
-                {
-                    b.HasOne("Listovki_TSP_Uni.Models.ListovkaModel", "Listovka")
-                        .WithMany("Vuprosi")
-                        .HasForeignKey("ListovkaID");
-
-                    b.Navigation("Listovka");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -363,11 +349,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.ListovkaModel", b =>
-                {
-                    b.Navigation("Vuprosi");
                 });
 
             modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosModel", b =>
