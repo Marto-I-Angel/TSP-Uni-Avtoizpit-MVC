@@ -41,6 +41,17 @@ namespace TSP_Uni_Listovki.Controllers
                 return NotFound();
             }
 
+            var vruzki =_context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+            List<VuprosModel> vuprosi = new List<VuprosModel>();
+            foreach(var vruzka in vruzki)
+            {
+                vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
+            }
+            foreach(var vupros in vuprosi)
+            {
+                vupros.Otgovori = _context.OtgovorModel.Where(v => v.VuprosID == vupros.id).ToList();
+            }
+            ViewData["vuprosi"] = vuprosi;
             return View(listovkaModel);
         }
 
@@ -102,11 +113,11 @@ namespace TSP_Uni_Listovki.Controllers
             {
                 if (maxTochki - currTochki <= 3)
                 {
-                    switch(currTochki)
+                    switch(maxTochki - currTochki)
                     {
-                     //   case 94: add3pts(); break;
-                    //    case 95: add2pts(); break;
-                     //  case 96: add1pts(); break;
+                     //   case 3: add3pts(); break;
+                    //    case 2: add2pts(); break;
+                     //  case 1: add1pts(); break;
                     }
                     break;
                 }

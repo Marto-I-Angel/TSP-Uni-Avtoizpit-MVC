@@ -4,33 +4,53 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>VuprosModel</h4>
+<div class="border-bottom">
+    <h4>@Html.DisplayFor(model => model.uslovie)</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.uslovie)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.uslovie)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.img)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.img)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.tochki)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.tochki)
-        </dd>
+        <div>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.img)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.img)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.tochki)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.tochki)
+            </dd>
+        </div>
+
+        @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in (List<Listovki_TSP_Uni.Models.OtgovorModel>)ViewData["Otgovori"])
+        {
+            <div class="border-left">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(x => otgovor.Content)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(x => otgovor.Content)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(x => otgovor.izobrajenie)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(x => otgovor.izobrajenie)
+                </dd>
+                <dt class="col-sm-2">
+                    Stoinost:
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(x => otgovor.veren)
+                </dd>
+            </div>
+        }
+
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+

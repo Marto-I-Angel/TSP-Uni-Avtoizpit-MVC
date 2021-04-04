@@ -27,7 +27,10 @@
                         </div>
                         <div class="form-group form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" name="otgovorVeren" type="checkbox"/> @Html.DisplayNameFor(model => model.veren)
+                                <select class="form-check-input" name="otgovorVeren"> @Html.DisplayNameFor(model => model.veren)
+                                    <option value="true">veren</option>
+                                    <option value="false" selected>greshen</option>
+                                </select>
                             </label>
                         </div>
                     </div>

@@ -59,14 +59,14 @@ namespace TSP_Uni_Listovki.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ICollection<string> otgovorContent, ICollection<string> otgovorVeren, ICollection<string> otgovorIzobrajenie)
-        {   //problem:  checkbox-a vrushta ili null ili string on, v kraq na kraishtata e mnogo neudobno.
+        {
             if (ModelState.IsValid)
             {
                 List<OtgovorModel> otgovorModels = new List<OtgovorModel>();
                 for(int i=0; i<4; i++)
                 {
                     if(otgovorContent.ElementAt(i)!="" || otgovorIzobrajenie.ElementAt(i)!="")
-                    otgovorModels.Add(new OtgovorModel(otgovorContent.ElementAt(i), otgovorIzobrajenie.ElementAt(i), /*(otgovorVeren.ElementAt(i)=="on")*/ false, vuprosId));
+                    otgovorModels.Add(new OtgovorModel(otgovorContent.ElementAt(i), otgovorIzobrajenie.ElementAt(i), (otgovorVeren.ElementAt(i)=="true"), vuprosId));
                 }
 
                 foreach(OtgovorModel otgovorModel in otgovorModels) {
@@ -75,7 +75,6 @@ namespace TSP_Uni_Listovki.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["VuprosID"] = new SelectList(_context.Set<VuprosModel>(), "id", "id", otgovorModel.VuprosID);
             return View();
         }
 
@@ -128,7 +127,6 @@ namespace TSP_Uni_Listovki.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VuprosID"] = new SelectList(_context.Set<VuprosModel>(), "id", "id", otgovorModel.VuprosID);
             return View(otgovorModel);
         }
 

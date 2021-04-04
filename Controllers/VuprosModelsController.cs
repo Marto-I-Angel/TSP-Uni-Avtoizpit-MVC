@@ -39,7 +39,8 @@ namespace TSP_Uni_Listovki.Controllers
             {
                 return NotFound();
             }
-
+            List<OtgovorModel> otgovori = _context.OtgovorModel.Where(otgovor => otgovor.VuprosID == id).ToList();
+            ViewData["Otgovori"] = otgovori;
             return View(vuprosModel);
         }
 
