@@ -58,14 +58,15 @@ namespace TSP_Uni_Listovki.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("id,Content,izobrajenie,veren,VuprosID")]*/ ICollection<string> otgovorContent)
+        public async Task<IActionResult> Create(ICollection<string> otgovorContent, ICollection<string> otgovorVeren, ICollection<string> otgovorIzobrajenie)
         {
             if (ModelState.IsValid)
             {
                 List<OtgovorModel> otgovorModels = new List<OtgovorModel>();
-                foreach(String content in otgovorContent)
+                for(int i=0; i<4; i++)
                 {
-                    otgovorModels.Add(new OtgovorModel(content,vuprosId));
+                    if(otgovorContent.ElementAt(i)!="" || otgovorIzobrajenie.ElementAt(i)!="")
+                    otgovorModels.Add(new OtgovorModel(otgovorContent.ElementAt(i), otgovorIzobrajenie.ElementAt(i), (otgovorVeren.ElementAt(i)=="true"), vuprosId));
                 }
 
                 foreach(OtgovorModel otgovorModel in otgovorModels) {
@@ -74,7 +75,6 @@ namespace TSP_Uni_Listovki.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["VuprosID"] = new SelectList(_context.Set<VuprosModel>(), "id", "id", otgovorModel.VuprosID);
             return View();
         }
 
@@ -127,7 +127,6 @@ namespace TSP_Uni_Listovki.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VuprosID"] = new SelectList(_context.Set<VuprosModel>(), "id", "id", otgovorModel.VuprosID);
             return View(otgovorModel);
         }
 

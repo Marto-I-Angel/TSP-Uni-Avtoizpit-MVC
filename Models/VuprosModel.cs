@@ -12,6 +12,7 @@ namespace Listovki_TSP_Uni.Models
         public string uslovie { get; set; }
         public string img { get; set; }
         public int tochki { get; set; }
+
         public virtual ICollection<OtgovorModel> Otgovori { get; set; }
         public VuprosModel()
         {

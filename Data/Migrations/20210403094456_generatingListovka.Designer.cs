@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TSP_Uni_Listovki.Data;
 
 namespace TSP_Uni_Listovki.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210403094456_generatingListovka")]
+    partial class generatingListovka
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,28 +87,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                     b.HasKey("id");
 
                     b.ToTable("VuprosModel");
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosiZaListovka", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ListovkaID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VuprosId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ListovkaID");
-
-                    b.HasIndex("VuprosId");
-
-                    b.ToTable("VuprosiZaListovka");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -316,21 +296,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .HasForeignKey("VuprosID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Vupros");
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosiZaListovka", b =>
-                {
-                    b.HasOne("Listovki_TSP_Uni.Models.ListovkaModel", "Listovka")
-                        .WithMany()
-                        .HasForeignKey("ListovkaID");
-
-                    b.HasOne("Listovki_TSP_Uni.Models.VuprosModel", "Vupros")
-                        .WithMany()
-                        .HasForeignKey("VuprosId");
-
-                    b.Navigation("Listovka");
 
                     b.Navigation("Vupros");
                 });
