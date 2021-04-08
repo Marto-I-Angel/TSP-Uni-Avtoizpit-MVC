@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TSP_Uni_Listovki.Data.Migrations
 {
-    public partial class @new : Migration
+    public partial class populvane : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,10 @@ namespace TSP_Uni_Listovki.Data.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ListovkaID = table.Column<int>(type: "int", nullable: true),
-                    VuprosId = table.Column<int>(type: "int", nullable: true)
+                    VuprosId = table.Column<int>(type: "int", nullable: true),
+                    Otgovor1Id = table.Column<int>(type: "int", nullable: true),
+                    Otgovor2Id = table.Column<int>(type: "int", nullable: true),
+                    Otgovor3Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,6 +78,24 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         name: "FK_VuprosiZaListovka_ListovkaModel_ListovkaID",
                         column: x => x.ListovkaID,
                         principalTable: "ListovkaModel",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VuprosiZaListovka_OtgovorModel_Otgovor1Id",
+                        column: x => x.Otgovor1Id,
+                        principalTable: "OtgovorModel",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VuprosiZaListovka_OtgovorModel_Otgovor2Id",
+                        column: x => x.Otgovor2Id,
+                        principalTable: "OtgovorModel",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_VuprosiZaListovka_OtgovorModel_Otgovor3Id",
+                        column: x => x.Otgovor3Id,
+                        principalTable: "OtgovorModel",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -96,6 +117,21 @@ namespace TSP_Uni_Listovki.Data.Migrations
                 column: "ListovkaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_VuprosiZaListovka_Otgovor1Id",
+                table: "VuprosiZaListovka",
+                column: "Otgovor1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VuprosiZaListovka_Otgovor2Id",
+                table: "VuprosiZaListovka",
+                column: "Otgovor2Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VuprosiZaListovka_Otgovor3Id",
+                table: "VuprosiZaListovka",
+                column: "Otgovor3Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VuprosiZaListovka_VuprosId",
                 table: "VuprosiZaListovka",
                 column: "VuprosId");
@@ -104,13 +140,13 @@ namespace TSP_Uni_Listovki.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OtgovorModel");
-
-            migrationBuilder.DropTable(
                 name: "VuprosiZaListovka");
 
             migrationBuilder.DropTable(
                 name: "ListovkaModel");
+
+            migrationBuilder.DropTable(
+                name: "OtgovorModel");
 
             migrationBuilder.DropTable(
                 name: "VuprosModel");

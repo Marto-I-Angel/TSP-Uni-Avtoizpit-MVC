@@ -12,6 +12,8 @@ namespace TSP_Uni_Listovki.Controllers
 {
     public class ListovkaModelsController : Controller
     {
+        private List<VuprosiZaListovka> vruzki;
+        private List<VuprosModel> vuprosi;
         private Random rng = new Random();
         private readonly ApplicationDbContext _context;
 
@@ -41,8 +43,8 @@ namespace TSP_Uni_Listovki.Controllers
                 return NotFound();
             }
 
-            var vruzki =_context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
-            List<VuprosModel> vuprosi = new List<VuprosModel>();
+            vruzki =_context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+            vuprosi = new List<VuprosModel>();
             foreach(var vruzka in vruzki)
             {
                 vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
@@ -54,6 +56,42 @@ namespace TSP_Uni_Listovki.Controllers
             ViewData["vuprosi"] = vuprosi;
             return View(listovkaModel);
         }
+
+        public async Task<IActionResult> Reshavane(int? id,ICollection<string> otgovori)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (otgovori.Count!=0)
+            {
+                return View();
+            }
+            else 
+            { 
+                var listovkaModel = await _context.ListovkaModel
+                    .FirstOrDefaultAsync(m => m.id == id);
+                if (listovkaModel == null)
+                {
+                    return NotFound();
+                }
+
+                var vruzki = _context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+                List<VuprosModel> vuprosi = new List<VuprosModel>();
+                foreach (var vruzka in vruzki)
+                {
+                    vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
+                }
+                foreach (var vupros in vuprosi)
+                {
+                    vupros.Otgovori = _context.OtgovorModel.Where(v => v.VuprosID == vupros.id).ToList();
+                }
+                ViewData["vuprosi"] = vuprosi;
+                return View(listovkaModel);
+            }
+        }
+
 
         // GET: ListovkaModels/Create
         public IActionResult Create()

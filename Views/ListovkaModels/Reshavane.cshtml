@@ -1,0 +1,58 @@
+﻿@model Listovki_TSP_Uni.Models.ListovkaModel
+
+@{
+    ViewData["Title"] = "Details";
+    ViewData["counter"] = 1;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ListovkaModel</h4>
+    <hr />
+    <dl class="row">
+    </dl>
+    <div class="row">
+        <form asp-action="Reshavane">
+            <button onclick="" class="btn">Back</button>
+            <!--make the previous question visible using javascript-->
+            <div class="border container">
+                @foreach (Listovki_TSP_Uni.Models.VuprosModel vupros in (List<Listovki_TSP_Uni.Models.VuprosModel>)ViewData["vuprosi"])
+                {
+                    <!--style="display:none"-->
+                    <div id="@vupros.id">
+
+                        <h2>@Html.DisplayFor(model => vupros.uslovie)</h2>
+
+                        @Html.DisplayFor(model => vupros.img)
+
+                        @Html.DisplayFor(model => vupros.tochki)
+
+                        <div class="flex-container">
+                            <fieldset>
+                                @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in vupros.Otgovori)
+                                {
+                                    <label for="@otgovor.id" class="border flex">
+
+                                        @Html.DisplayFor(x => otgovor.Content)
+
+                                        @Html.DisplayFor(x => otgovor.izobrajenie)
+
+                                        <input type="checkbox" name="otgovor" value="@otgovor.id" id="@otgovor.id" />
+                                    </label>
+                                }
+                            </fieldset>
+                        </div>
+                    </div>
+                }
+                <button onclick="" class="btn">Next</button>
+                <!--make the next question visible using javascript-->
+            </div>
+            <input type="submit" />
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

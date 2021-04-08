@@ -97,12 +97,27 @@ namespace TSP_Uni_Listovki.Data.Migrations
                     b.Property<int?>("ListovkaID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Otgovor1Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Otgovor2Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Otgovor3Id")
+                        .HasColumnType("int");
+
                     b.Property<int?>("VuprosId")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
                     b.HasIndex("ListovkaID");
+
+                    b.HasIndex("Otgovor1Id");
+
+                    b.HasIndex("Otgovor2Id");
+
+                    b.HasIndex("Otgovor3Id");
 
                     b.HasIndex("VuprosId");
 
@@ -326,11 +341,29 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ListovkaID");
 
+                    b.HasOne("Listovki_TSP_Uni.Models.OtgovorModel", "Otgovor1")
+                        .WithMany()
+                        .HasForeignKey("Otgovor1Id");
+
+                    b.HasOne("Listovki_TSP_Uni.Models.OtgovorModel", "Otgovor2")
+                        .WithMany()
+                        .HasForeignKey("Otgovor2Id");
+
+                    b.HasOne("Listovki_TSP_Uni.Models.OtgovorModel", "Otgovor3")
+                        .WithMany()
+                        .HasForeignKey("Otgovor3Id");
+
                     b.HasOne("Listovki_TSP_Uni.Models.VuprosModel", "Vupros")
                         .WithMany()
                         .HasForeignKey("VuprosId");
 
                     b.Navigation("Listovka");
+
+                    b.Navigation("Otgovor1");
+
+                    b.Navigation("Otgovor2");
+
+                    b.Navigation("Otgovor3");
 
                     b.Navigation("Vupros");
                 });
