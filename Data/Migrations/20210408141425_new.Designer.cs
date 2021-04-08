@@ -10,8 +10,8 @@ using TSP_Uni_Listovki.Data;
 namespace TSP_Uni_Listovki.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210326153637_vupros-otgoor")]
-    partial class vuprosotgoor
+    [Migration("20210408141425_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,27 @@ namespace TSP_Uni_Listovki.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.ListovkaModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("tochki")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("ListovkaModel");
+                });
 
             modelBuilder.Entity("Listovki_TSP_Uni.Models.OtgovorModel", b =>
                 {
@@ -66,6 +87,28 @@ namespace TSP_Uni_Listovki.Data.Migrations
                     b.HasKey("id");
 
                     b.ToTable("VuprosModel");
+                });
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosiZaListovka", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ListovkaID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VuprosId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ListovkaID");
+
+                    b.HasIndex("VuprosId");
+
+                    b.ToTable("VuprosiZaListovka");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -275,6 +318,21 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .HasForeignKey("VuprosID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Vupros");
+                });
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosiZaListovka", b =>
+                {
+                    b.HasOne("Listovki_TSP_Uni.Models.ListovkaModel", "Listovka")
+                        .WithMany()
+                        .HasForeignKey("ListovkaID");
+
+                    b.HasOne("Listovki_TSP_Uni.Models.VuprosModel", "Vupros")
+                        .WithMany()
+                        .HasForeignKey("VuprosId");
+
+                    b.Navigation("Listovka");
 
                     b.Navigation("Vupros");
                 });

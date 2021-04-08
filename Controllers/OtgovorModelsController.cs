@@ -65,10 +65,12 @@ namespace TSP_Uni_Listovki.Controllers
                 List<OtgovorModel> otgovorModels = new List<OtgovorModel>();
                 for(int i=0; i<4; i++)
                 {
-                    if(otgovorContent.ElementAt(i)!="" || otgovorIzobrajenie.ElementAt(i)!="")
-                    otgovorModels.Add(new OtgovorModel(otgovorContent.ElementAt(i), otgovorIzobrajenie.ElementAt(i), (otgovorVeren.ElementAt(i)=="true"), vuprosId));
+                    if (otgovorContent.ElementAt(i) != null || otgovorIzobrajenie.ElementAt(i) != null)
+                    {
+                        otgovorModels.Add(new OtgovorModel(otgovorContent.ElementAt(i), otgovorIzobrajenie.ElementAt(i), (otgovorVeren.ElementAt(i) == "true"), vuprosId));
+                    }
                 }
-
+                //Place for validation, if needed
                 foreach(OtgovorModel otgovorModel in otgovorModels) {
                     _context.Add(otgovorModel);
                 }

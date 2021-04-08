@@ -111,15 +111,11 @@ namespace TSP_Uni_Listovki.Controllers
 
             foreach(VuprosModel vupros in all)
             {
+                if (maxTochki == currTochki) break;
                 if (maxTochki - currTochki <= 3)
                 {
-                    switch(maxTochki - currTochki)
-                    {
-                     //   case 3: add3pts(); break;
-                    //    case 2: add2pts(); break;
-                     //  case 1: add1pts(); break;
-                    }
-                    break;
+                    listovka.Add(_context.VuprosModel.Where(x => x.tochki == maxTochki - currTochki).Single());
+                        break;
                 }
                 else
                 {
