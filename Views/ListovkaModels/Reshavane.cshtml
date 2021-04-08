@@ -32,7 +32,7 @@
                             <fieldset>
                                 @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in vupros.Otgovori)
                                 {
-                                    <label for="@otgovor.id" class="border flex">
+                                    <label for="@otgovor.id" class="border flex pointer-event">
 
                                         @Html.DisplayFor(x => otgovor.Content)
 
