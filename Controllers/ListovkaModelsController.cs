@@ -12,6 +12,8 @@ namespace TSP_Uni_Listovki.Controllers
 {
     public class ListovkaModelsController : Controller
     {
+        private List<VuprosiZaListovka> vruzki;
+        private List<VuprosModel> vuprosi;
         private Random rng = new Random();
         private readonly ApplicationDbContext _context;
 
@@ -41,8 +43,8 @@ namespace TSP_Uni_Listovki.Controllers
                 return NotFound();
             }
 
-            var vruzki =_context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
-            List<VuprosModel> vuprosi = new List<VuprosModel>();
+            vruzki =_context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+            vuprosi = new List<VuprosModel>();
             foreach(var vruzka in vruzki)
             {
                 vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
@@ -54,6 +56,69 @@ namespace TSP_Uni_Listovki.Controllers
             ViewData["vuprosi"] = vuprosi;
             return View(listovkaModel);
         }
+
+        public async Task<IActionResult> Reshavane(int? id, ICollection<string> otbelqzanOtg)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (otbelqzanOtg.Count!=0)
+            {   //Proverka na otgovora
+                //List<VuprosiZaListovka> vruzki = _context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+                var listovka = _context.ListovkaModel.Where(x => x.id == id).Single();
+                var vuprosi = loadQuestions(_context, id);
+                var opit = new Dictionary<VuprosModel,bool>(); 
+                int tochki = 0;
+                foreach (VuprosModel vupros in vuprosi)
+                {
+                    bool result = true;
+                    foreach(OtgovorModel otgovor in vupros.Otgovori)
+                    {
+                        if (otgovor.veren ^ otbelqzanOtg.Contains(otgovor.id.ToString()))
+                        {
+                            result = false; break;
+                        }
+                    }
+                    if (result) tochki += vupros.tochki;
+                    opit.Add(vupros, result);
+                }
+                listovka.tochki = tochki;
+
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index)); //redirektvane kum stranica za pokazvane na pravilnite otgovori na listovkata.
+            }
+            else 
+            {   //Vzimane na vuprosite s tehnite otgovori ot bazata danni
+                var listovkaModel = await _context.ListovkaModel
+                    .FirstOrDefaultAsync(m => m.id == id);
+                if (listovkaModel == null)
+                {
+                    return NotFound();
+                }
+
+                List<VuprosModel> vuprosi = loadQuestions(_context, id);
+                ViewData["vuprosi"] = vuprosi;
+                return View();
+            }
+        }
+        private List<VuprosModel> loadQuestions( DbContext context,int? id)
+        {
+            var vruzki = _context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+            List<VuprosModel> vuprosi = new List<VuprosModel>();
+            foreach (var vruzka in vruzki)
+            {
+                vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
+            }
+            foreach (var vupros in vuprosi)
+            {
+                vupros.Otgovori = _context.OtgovorModel.Where(v => v.VuprosID == vupros.id).ToList();
+            }
+            return vuprosi;
+        }
+
 
         // GET: ListovkaModels/Create
         public IActionResult Create()
@@ -111,15 +176,11 @@ namespace TSP_Uni_Listovki.Controllers
 
             foreach(VuprosModel vupros in all)
             {
+                if (maxTochki == currTochki) break;
                 if (maxTochki - currTochki <= 3)
                 {
-                    switch(maxTochki - currTochki)
-                    {
-                     //   case 3: add3pts(); break;
-                    //    case 2: add2pts(); break;
-                     //  case 1: add1pts(); break;
-                    }
-                    break;
+                    listovka.Add(_context.VuprosModel.Where(x => x.tochki == maxTochki - currTochki).Single());
+                        break;
                 }
                 else
                 {
