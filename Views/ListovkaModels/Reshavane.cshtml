@@ -1,8 +1,9 @@
-﻿@model Listovki_TSP_Uni.Models.ListovkaModel
+﻿@using Listovki_TSP_Uni.Models
+@model ListovkaModel
+
 
 @{
     ViewData["Title"] = "Details";
-    ViewData["counter"] = 1;
 }
 
 <h1>Details</h1>
@@ -20,30 +21,34 @@
                 @foreach (Listovki_TSP_Uni.Models.VuprosModel vupros in (List<Listovki_TSP_Uni.Models.VuprosModel>)ViewData["vuprosi"])
                 {
                     <!--style="display:none"-->
-                    <div id="@vupros.id">
 
-                        <h2>@Html.DisplayFor(model => vupros.uslovie)</h2>
+ 
+                <div id="@vupros.id">
 
-                        @Html.DisplayFor(model => vupros.img)
+                    <h2>@Html.DisplayFor(model => vupros.uslovie)</h2>
 
-                        @Html.DisplayFor(model => vupros.tochki)
+                    @Html.DisplayFor(model => vupros.img)
 
-                        <div class="flex-container">
-                            <fieldset>
-                                @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in vupros.Otgovori)
-                                {
-                                    <label for="@otgovor.id" class="border flex pointer-event">
+                    @Html.DisplayFor(model => vupros.tochki)
 
-                                        @Html.DisplayFor(x => otgovor.Content)
+                    <input type="hidden" name="vuprosId" value="@vupros.id" />
+                    <!--izprashta informaciq za vuprosite i otbelqzanite otgovori-->
+                    <div class="flex-container">
+                        <fieldset>
+                            @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in vupros.Otgovori)
+                            {
+                                <label for="@otgovor.id" class="border flex pointer-event">
 
-                                        @Html.DisplayFor(x => otgovor.izobrajenie)
+                                    @Html.DisplayFor(x => otgovor.Content)
 
-                                        <input type="checkbox" name="otgovor" value="@otgovor.id" id="@otgovor.id" />
-                                    </label>
-                                }
-                            </fieldset>
-                        </div>
+                                    @Html.DisplayFor(x => otgovor.izobrajenie)
+
+                                    <input type="checkbox" name="otbelqzanOtg" value="@otgovor.id" id="@otgovor.id"/>
+                                </label>
+                            }
+                        </fieldset>
                     </div>
+                </div>
                 }
                 <button onclick="" class="btn">Next</button>
                 <!--make the next question visible using javascript-->
@@ -53,6 +58,5 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

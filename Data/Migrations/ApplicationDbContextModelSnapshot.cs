@@ -16,113 +16,8 @@ namespace TSP_Uni_Listovki.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.ListovkaModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("tochki")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("ListovkaModel");
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.OtgovorModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VuprosID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("izobrajenie")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("veren")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("VuprosID");
-
-                    b.ToTable("OtgovorModel");
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosModel", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("img")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("tochki")
-                        .HasColumnType("int");
-
-                    b.Property<string>("uslovie")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("VuprosModel");
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosiZaListovka", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ListovkaID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Otgovor1Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Otgovor2Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Otgovor3Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VuprosId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ListovkaID");
-
-                    b.HasIndex("Otgovor1Id");
-
-                    b.HasIndex("Otgovor2Id");
-
-                    b.HasIndex("Otgovor3Id");
-
-                    b.HasIndex("VuprosId");
-
-                    b.ToTable("VuprosiZaListovka");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -324,50 +219,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.OtgovorModel", b =>
-                {
-                    b.HasOne("Listovki_TSP_Uni.Models.VuprosModel", "Vupros")
-                        .WithMany("Otgovori")
-                        .HasForeignKey("VuprosID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vupros");
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosiZaListovka", b =>
-                {
-                    b.HasOne("Listovki_TSP_Uni.Models.ListovkaModel", "Listovka")
-                        .WithMany()
-                        .HasForeignKey("ListovkaID");
-
-                    b.HasOne("Listovki_TSP_Uni.Models.OtgovorModel", "Otgovor1")
-                        .WithMany()
-                        .HasForeignKey("Otgovor1Id");
-
-                    b.HasOne("Listovki_TSP_Uni.Models.OtgovorModel", "Otgovor2")
-                        .WithMany()
-                        .HasForeignKey("Otgovor2Id");
-
-                    b.HasOne("Listovki_TSP_Uni.Models.OtgovorModel", "Otgovor3")
-                        .WithMany()
-                        .HasForeignKey("Otgovor3Id");
-
-                    b.HasOne("Listovki_TSP_Uni.Models.VuprosModel", "Vupros")
-                        .WithMany()
-                        .HasForeignKey("VuprosId");
-
-                    b.Navigation("Listovka");
-
-                    b.Navigation("Otgovor1");
-
-                    b.Navigation("Otgovor2");
-
-                    b.Navigation("Otgovor3");
-
-                    b.Navigation("Vupros");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -417,11 +268,6 @@ namespace TSP_Uni_Listovki.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosModel", b =>
-                {
-                    b.Navigation("Otgovori");
                 });
 #pragma warning restore 612, 618
         }

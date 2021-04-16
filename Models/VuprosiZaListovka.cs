@@ -13,14 +13,6 @@ namespace Listovki_TSP_Uni.Models
         public int? VuprosId { get; set; }
         public virtual VuprosModel Vupros { get; set; }
 
-
-        public int? Otgovor1Id { get; set; }
-        public virtual OtgovorModel Otgovor1 { get; set; }
-        public int? Otgovor2Id { get; set; }
-        public virtual OtgovorModel Otgovor2 { get; set; }
-        public int? Otgovor3Id { get; set; }
-        public virtual OtgovorModel Otgovor3 { get; set; }
-
         public VuprosiZaListovka() { }
     }
 }

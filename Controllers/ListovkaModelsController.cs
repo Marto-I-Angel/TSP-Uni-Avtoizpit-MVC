@@ -57,19 +57,41 @@ namespace TSP_Uni_Listovki.Controllers
             return View(listovkaModel);
         }
 
-        public async Task<IActionResult> Reshavane(int? id,ICollection<string> otgovori)
+        public async Task<IActionResult> Reshavane(int? id, ICollection<string> otbelqzanOtg)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            if (otgovori.Count!=0)
-            {
-                return View();
+            if (otbelqzanOtg.Count!=0)
+            {   //Proverka na otgovora
+                //List<VuprosiZaListovka> vruzki = _context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+                var listovka = _context.ListovkaModel.Where(x => x.id == id).Single();
+                var vuprosi = loadQuestions(_context, id);
+                var opit = new Dictionary<VuprosModel,bool>(); 
+                int tochki = 0;
+                foreach (VuprosModel vupros in vuprosi)
+                {
+                    bool result = true;
+                    foreach(OtgovorModel otgovor in vupros.Otgovori)
+                    {
+                        if (otgovor.veren ^ otbelqzanOtg.Contains(otgovor.id.ToString()))
+                        {
+                            result = false; break;
+                        }
+                    }
+                    if (result) tochki += vupros.tochki;
+                    opit.Add(vupros, result);
+                }
+                listovka.tochki = tochki;
+
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index)); //redirektvane kum stranica za pokazvane na pravilnite otgovori na listovkata.
             }
             else 
-            { 
+            {   //Vzimane na vuprosite s tehnite otgovori ot bazata danni
                 var listovkaModel = await _context.ListovkaModel
                     .FirstOrDefaultAsync(m => m.id == id);
                 if (listovkaModel == null)
@@ -77,19 +99,24 @@ namespace TSP_Uni_Listovki.Controllers
                     return NotFound();
                 }
 
-                var vruzki = _context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
-                List<VuprosModel> vuprosi = new List<VuprosModel>();
-                foreach (var vruzka in vruzki)
-                {
-                    vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
-                }
-                foreach (var vupros in vuprosi)
-                {
-                    vupros.Otgovori = _context.OtgovorModel.Where(v => v.VuprosID == vupros.id).ToList();
-                }
+                List<VuprosModel> vuprosi = loadQuestions(_context, id);
                 ViewData["vuprosi"] = vuprosi;
-                return View(listovkaModel);
+                return View();
             }
+        }
+        private List<VuprosModel> loadQuestions( DbContext context,int? id)
+        {
+            var vruzki = _context.VuprosiZaListovka.Where(v => v.ListovkaID == id).ToList();
+            List<VuprosModel> vuprosi = new List<VuprosModel>();
+            foreach (var vruzka in vruzki)
+            {
+                vuprosi.Add(_context.VuprosModel.Where(v => v.id == vruzka.VuprosId).Single());
+            }
+            foreach (var vupros in vuprosi)
+            {
+                vupros.Otgovori = _context.OtgovorModel.Where(v => v.VuprosID == vupros.id).ToList();
+            }
+            return vuprosi;
         }
 
 
