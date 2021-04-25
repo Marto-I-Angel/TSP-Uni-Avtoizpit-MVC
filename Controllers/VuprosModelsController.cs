@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Listovki_TSP_Uni.Models;
 using TSP_Uni_Listovki.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TSP_Uni_Listovki.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class VuprosModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
