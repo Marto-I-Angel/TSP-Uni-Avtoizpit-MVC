@@ -17,5 +17,8 @@ namespace TSP_Uni_Listovki.Data
         public DbSet<Listovki_TSP_Uni.Models.VuprosModel> VuprosModel { get; set; }
         public DbSet<Listovki_TSP_Uni.Models.ListovkaModel> ListovkaModel { get; set; }
         public DbSet<Listovki_TSP_Uni.Models.VuprosiZaListovka> VuprosiZaListovka { get; set; }
+        public DbSet<Listovki_TSP_Uni.Models.KurmuvaneModel> KurmuvaneModel { get; set; }
+        public DbSet<Listovki_TSP_Uni.Models.IzpitvashtiModel> IzpitvashtiModel { get; set; }
+        public DbSet<Listovki_TSP_Uni.Models.InstruktoriModel> InstruktoriModel { get; set; }
     }
 }

@@ -12,6 +12,8 @@ namespace Listovki_TSP_Uni.Models
         public int tochki { get; set; }
         public string userName { get; set; }
 
+        public virtual ICollection<VuprosModel> Otgovori { get; set; }
+
         public ListovkaModel() { }
     }
 }
