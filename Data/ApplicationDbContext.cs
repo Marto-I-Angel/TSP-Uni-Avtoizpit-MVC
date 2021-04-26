@@ -24,8 +24,8 @@ namespace TSP_Uni_Listovki.Data
             //builder.Ignore<IdentityRole>();
             //builder.Ignore<IdentityUserClaim<string>>();
             //builder.Ignore<IdentityUserRole<string>>();
-            builder.Ignore<IdentityUserLogin<string>>();
             //builder.Ignore<IdentityRoleClaim<string>>();
+            builder.Ignore<IdentityUserLogin<string>>();
             builder.Ignore<IdentityUserToken<string>>();
         }
         public DbSet<Listovki_TSP_Uni.Models.OtgovorModel> OtgovorModel { get; set; }

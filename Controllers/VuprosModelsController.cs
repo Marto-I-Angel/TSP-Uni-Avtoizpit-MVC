@@ -71,57 +71,6 @@ namespace TSP_Uni_Listovki.Controllers
             return View(vuprosModel);
         }
 
-        // GET: VuprosModels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vuprosModel = await _context.VuprosModel.FindAsync(id);
-            if (vuprosModel == null)
-            {
-                return NotFound();
-            }
-            return View(vuprosModel);
-        }
-
-        // POST: VuprosModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,uslovie,img,tochki")] VuprosModel vuprosModel)
-        {
-            if (id != vuprosModel.id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(vuprosModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VuprosModelExists(vuprosModel.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(vuprosModel);
-        }
-
         // GET: VuprosModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -147,6 +96,10 @@ namespace TSP_Uni_Listovki.Controllers
         {
             var vuprosModel = await _context.VuprosModel.FindAsync(id);
             _context.VuprosModel.Remove(vuprosModel);
+
+            foreach (OtgovorModel o in _context.OtgovorModel.Where(o => o.VuprosID == vuprosModel.id))
+                _context.OtgovorModel.Remove(o);
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

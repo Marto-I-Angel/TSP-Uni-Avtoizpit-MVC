@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Details";
 }
-
 <div class="border-bottom">
     <h4>@Html.DisplayFor(model => model.uslovie)</h4>
+
+        <img src="~/Photos/@Html.DisplayFor(model => model.img)" runat="server"/>
     <hr />
     <dl class="row">
         <div>

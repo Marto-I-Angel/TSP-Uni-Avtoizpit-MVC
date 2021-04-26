@@ -167,27 +167,47 @@ namespace TSP_Uni_Listovki.Controllers
 
         private List<VuprosModel> generateListovka(List<VuprosModel> all)
         {
-            const int maxTochki = 97;
             int currTochki = 0;
 
-            Shuffle(all);
+            var list3 = new List<VuprosModel>();
+            var list2 = new List<VuprosModel>();
+            var list1 = new List<VuprosModel>();
+
+            foreach(VuprosModel vuprosModel in all)
+            {
+                switch (vuprosModel.tochki)
+                {
+                    case 1: list1.Add(vuprosModel); break;
+                    case 2: list2.Add(vuprosModel); break;
+                    case 3: list3.Add(vuprosModel); break;
+                }
+            }
 
             List<VuprosModel> listovka = new List<VuprosModel>(); 
 
-            foreach(VuprosModel vupros in all)
+            foreach(VuprosModel vuprosModel in list3)
             {
-                if (maxTochki == currTochki) break;
-                if (maxTochki - currTochki <= 3)
-                {
-                    listovka.Add(_context.VuprosModel.Where(x => x.tochki == maxTochki - currTochki).Single());
-                        break;
-                }
-                else
-                {
-                    listovka.Add(vupros);
-                    currTochki += vupros.tochki;
-                }
+                if (currTochki >= 48) break;
+                listovka.Add(vuprosModel);
+                currTochki += vuprosModel.tochki;
             }
+
+            foreach (VuprosModel vuprosModel in list2)
+            {
+                if (currTochki >= 88) break;
+                listovka.Add(vuprosModel);
+                currTochki += vuprosModel.tochki;
+            }
+
+            foreach (VuprosModel vuprosModel in list1)
+            {
+                if (currTochki >= 97) break;
+                listovka.Add(vuprosModel);
+                currTochki += vuprosModel.tochki;
+            }
+
+            Shuffle(listovka);
+
             return listovka;
         }
 

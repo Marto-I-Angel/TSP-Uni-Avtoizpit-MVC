@@ -1,8 +1,8 @@
-﻿@model Listovki_TSP_Uni.Models.VuprosModel
+﻿
+@model Listovki_TSP_Uni.Models.VuprosModel
 @{
     ViewData["Title"] = "Create";
 }
-
 <h1>Create</h1>
 
 <h4>VuprosModel</h4>
@@ -17,6 +17,7 @@
                 <span asp-validation-for="uslovie" class="text-danger"></span>
             </div>
             <div class="form-group">
+
                 <label asp-for="img" class="control-label"></label>
                 <input name="img" type="file" class="form-control" />
                 <span asp-validation-for="img" class="text-danger"></span>

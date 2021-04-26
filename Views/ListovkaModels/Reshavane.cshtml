@@ -27,7 +27,9 @@
 
                     <h2>@Html.DisplayFor(model => vupros.uslovie)</h2>
 
-                    @Html.DisplayFor(model => vupros.img)
+                    @if (vupros.img != null) {
+                    <img href="@vupros.img" />
+                    }
 
                     @Html.DisplayFor(model => vupros.tochki)
 
