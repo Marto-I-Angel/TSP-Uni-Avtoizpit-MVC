@@ -15,47 +15,48 @@
     </dl>
     <div class="row">
         <form asp-action="Reshavane">
-            <button onclick="" class="btn">Back</button>
-            <!--make the previous question visible using javascript-->
             <div class="border container">
                 @foreach (Listovki_TSP_Uni.Models.VuprosModel vupros in (List<Listovki_TSP_Uni.Models.VuprosModel>)ViewData["vuprosi"])
                 {
-                    <!--style="display:none"-->
-
  
-                <div id="@vupros.id">
+                <div id="@vupros.id" class="border border-primary p-lg-5">
 
                     <h2>@Html.DisplayFor(model => vupros.uslovie)</h2>
 
-                    @if (vupros.img != null) {
-                    <img href="@vupros.img" />
+                    @if (vupros.img != null)
+                    {
+                    <div class="container">
+                        <img src="~/Photos/@vupros.img" asp-append-version="true" class="img-thumbnail image" />
+                    </div>
                     }
 
-                    @Html.DisplayFor(model => vupros.tochki)
+                <p>Точки: @Html.DisplayFor(model => vupros.tochki)</p>
+                <p>Брой верни: @vupros.Otgovori.Where(o => o.veren).ToArray().Length </p>
 
                     <input type="hidden" name="vuprosId" value="@vupros.id" />
                     <!--izprashta informaciq za vuprosite i otbelqzanite otgovori-->
                     <div class="flex-container">
-                        <fieldset>
                             @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in vupros.Otgovori)
                             {
-                                <label for="@otgovor.id" class="border flex pointer-event">
+                            <label class="border flex clickable text-center p-lg-3">
 
-                                    @Html.DisplayFor(x => otgovor.Content)
-
-                                    @Html.DisplayFor(x => otgovor.izobrajenie)
-
-                                    <input type="checkbox" name="otbelqzanOtg" value="@otgovor.id" id="@otgovor.id"/>
-                                </label>
+                                @Html.DisplayFor(x => otgovor.Content)
+                                @if (otgovor.izobrajenie != null)
+                                {
+                                    <img src="~/Photos/@otgovor.izobrajenie" asp-append-version="true" class="img-thumbnail" />
+                                }
+                                <input type="checkbox" name="otbelqzanOtg" value="@otgovor.id" id="@otgovor.id" />
+                            </label>
                             }
-                        </fieldset>
                     </div>
                 </div>
+                
+
                 }
-                <button onclick="" class="btn">Next</button>
-                <!--make the next question visible using javascript-->
             </div>
-            <input type="submit" />
+            <div>
+                <input type="submit" class="btn-dark btn-block btn" />
+            </div>
         </form>
     </div>
 </div>

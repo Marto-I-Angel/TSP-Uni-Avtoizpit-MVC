@@ -72,8 +72,16 @@ body {
 .flex {
     flex: 1;
     margin: 20px;
+    display:inline;
 }
 
 .flex-container {
     display: flex;
+}
+
+.image{
+    width:30%;
+}
+.clickable:hover{
+    cursor:pointer;
 }

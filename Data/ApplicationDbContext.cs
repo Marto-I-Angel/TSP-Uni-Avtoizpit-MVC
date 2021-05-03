@@ -20,11 +20,11 @@ namespace TSP_Uni_Listovki.Data
             base.OnModelCreating(builder);
 
             builder.HasDefaultSchema("Identity");
-            builder.Entity<ApplicationUser>();
-            //builder.Ignore<IdentityRole>();
-            //builder.Ignore<IdentityUserClaim<string>>();
-            //builder.Ignore<IdentityUserRole<string>>();
-            //builder.Ignore<IdentityRoleClaim<string>>();
+            builder.Entity<ApplicationUser>().ToTable("User");
+            builder.Entity<IdentityRole>().ToTable("Role");
+            builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaim");
+            builder.Entity<IdentityUserRole<string>>().ToTable("UserRole");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
             builder.Ignore<IdentityUserLogin<string>>();
             builder.Ignore<IdentityUserToken<string>>();
         }

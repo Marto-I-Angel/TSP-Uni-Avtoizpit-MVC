@@ -3,29 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Listovki_TSP_Uni.Models;
 using TSP_Uni_Listovki.Data;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TSP_Uni_Listovki.Controllers
 {
+    [Authorize(Policy ="User")]
     public class ListovkaModelsController : Controller
     {
         private List<VuprosiZaListovka> vruzki;
         private List<VuprosModel> vuprosi;
         private Random rng = new Random();
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ListovkaModelsController(ApplicationDbContext context)
+        public ListovkaModelsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: ListovkaModels
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.ListovkaModel.ToListAsync());
+            var list = _context.ListovkaModel.Where(l => l.userId == _userManager.GetUserId(User)).ToList();
+            return View(list);
         }
 
         // GET: ListovkaModels/Details/5
@@ -86,6 +92,8 @@ namespace TSP_Uni_Listovki.Controllers
                 }
                 listovka.tochki = tochki;
 
+                listovka.userId = _userManager.GetUserId(User);
+
                 _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index)); //redirektvane kum stranica za pokazvane na pravilnite otgovori na listovkata.
@@ -121,30 +129,28 @@ namespace TSP_Uni_Listovki.Controllers
 
 
         // GET: ListovkaModels/Create
-        public IActionResult Create()
+        /*public IActionResult Create()
         {
             return View();
         }
-
+        */
         // POST: ListovkaModels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,timestamp,tochki")] ListovkaModel listovkaModel)
+        public async Task<IActionResult> Create() //[Bind("id,timestamp,tochki")] ListovkaModel listovkaModel
         {
-            if (ModelState.IsValid)
+           /* if (ModelState.IsValid)
             {
-
+           */
+            //Vsichki vuprosi
                 var all = _context.VuprosModel.ToList();
 
                 var listovka = generateListovka(all);
+                ListovkaModel listovkaModel = new ListovkaModel();
 
                 listovkaModel.timestamp = DateTime.Now;
                 listovkaModel.tochki = 0;
                 var user = User.Identity;
-
-                listovkaModel.userName=user.Name;
 
                 _context.Add(listovkaModel);
                 await _context.SaveChangesAsync();
@@ -160,9 +166,12 @@ namespace TSP_Uni_Listovki.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+
+
+            return Redirect(nameof(Reshavane) + "/" + listovkaModel.id.ToString()); ;
+            /*}
             return View(listovkaModel);
+            */
         }
 
         private List<VuprosModel> generateListovka(List<VuprosModel> all)

@@ -6,7 +6,7 @@
 <div class="border-bottom">
     <h4>@Html.DisplayFor(model => model.uslovie)</h4>
 
-        <img src="~/Photos/@Html.DisplayFor(model => model.img)" runat="server"/>
+
     <hr />
     <dl class="row">
         <div>
@@ -15,6 +15,7 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.img)
+                <img  src="~/Photos/@Model.img" asp-append-version="true" class="img-thumbnail image"/>
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.tochki)
@@ -38,6 +39,7 @@
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(x => otgovor.izobrajenie)
+                    <img src="~/Photos/@otgovor.izobrajenie" asp-append-version="true" class="img-thumbnail image" />
                 </dd>
                 <dt class="col-sm-2">
                     Stoinost:

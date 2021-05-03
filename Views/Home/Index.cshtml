@@ -5,4 +5,23 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+    <div class="flex-container">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="flex border-primary border">
+                <a class="nav-link text-dark" asp-area="" asp-controller="VuprosModels" asp-action="Create">
+                    <h3>Създаване на въпрос</h3>
+                    <p>Създаване на въпрос и <br> добавянето му в базата от данни.</p>
+                </a>
+            </div>
+        }
+            <div class="flex border-primary border">
+                <a class="nav-link text-dark" asp-area="" asp-controller="ListovkaModels" asp-action="Create">
+                    <h3>Решаване на листовка</h3>
+                    <p>Генериране на листовка с <br> 40 произволни въпроса и решаването ѝ.</p>
+                </a>
+            </div>
+        </div>
+
+    </div>

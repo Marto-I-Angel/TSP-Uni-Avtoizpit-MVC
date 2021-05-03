@@ -33,10 +33,12 @@ namespace TSP_Uni_Listovki.Migrations
                     b.Property<int>("tochki")
                         .HasColumnType("int");
 
-                    b.Property<string>("userName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("userId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("ListovkaModel");
                 });
@@ -134,7 +136,7 @@ namespace TSP_Uni_Listovki.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -158,7 +160,7 @@ namespace TSP_Uni_Listovki.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("RoleClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -182,7 +184,7 @@ namespace TSP_Uni_Listovki.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims");
+                    b.ToTable("UserClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -197,7 +199,7 @@ namespace TSP_Uni_Listovki.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("TSP_Uni_Listovki.Data.ApplicationUser", b =>
@@ -268,7 +270,16 @@ namespace TSP_Uni_Listovki.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.ListovkaModel", b =>
+                {
+                    b.HasOne("TSP_Uni_Listovki.Data.ApplicationUser", "user")
+                        .WithMany("listovki")
+                        .HasForeignKey("userId");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Listovki_TSP_Uni.Models.OtgovorModel", b =>
@@ -333,6 +344,11 @@ namespace TSP_Uni_Listovki.Migrations
             modelBuilder.Entity("Listovki_TSP_Uni.Models.VuprosModel", b =>
                 {
                     b.Navigation("Otgovori");
+                });
+
+            modelBuilder.Entity("TSP_Uni_Listovki.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("listovki");
                 });
 #pragma warning restore 612, 618
         }
