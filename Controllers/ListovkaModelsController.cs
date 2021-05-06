@@ -178,6 +178,7 @@ namespace TSP_Uni_Listovki.Controllers
         {
             int currTochki = 0;
 
+            Shuffle(all);
             var list3 = new List<VuprosModel>();
             var list2 = new List<VuprosModel>();
             var list1 = new List<VuprosModel>();
