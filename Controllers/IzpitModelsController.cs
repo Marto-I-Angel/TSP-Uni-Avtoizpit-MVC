@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Listovki_TSP_Uni.Models;
 using TSP_Uni_Listovki.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace TSP_Uni_Listovki.Controllers
 {
@@ -15,10 +16,11 @@ namespace TSP_Uni_Listovki.Controllers
     public class IzpitModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public IzpitModelsController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IzpitModelsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: IzpitModels
@@ -46,36 +48,32 @@ namespace TSP_Uni_Listovki.Controllers
             return View(izpitModel);
         }
 
-        // GET: IzpitModels/Create
         [Authorize(Policy = "User")]
         public IActionResult Create()
         {
-            return View();
-        }
-
-        // POST: IzpitModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Policy = "User")]
-        public async Task<IActionResult> Create([Bind("id")] IzpitModel izpitModel)
-        {
             //Решаване на листовка ако вече не е била направена.
             //Създаване и свързване с листовка, пренасочване към create страницата на листовката.
-            //
-
-            //право на 1 изпит на човек? 
 
             //След като вече е направен изпита, се пренасочва към Details където се показват точките/дали е минал или не
             //Допълнителна промяна може да се прави само от админ, който ще въведе информацията от кормуването.
-            if (ModelState.IsValid)
-            {
-                _context.Add(izpitModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            IzpitModel izpitModel = new IzpitModel();
+            _context.Add(izpitModel);
+            _context.SaveChanges();
+
+            //Request.RouteValues.Add("IzpitId", izpitModel.id);
+
+            return RedirectToActionPreserveMethod("Create", "ListovkaModels",new { IzpitId = izpitModel.id });
+        }
+
+        public IActionResult CheckExam()    //todo: copy the index, add buttons to redirect.
+        {
+            var userId = _userManager.GetUserId(User);
+            var izpiti = _context.IzpitModel.Where(i => i.listovka.userId == userId).ToList();
+            foreach(var izpit in izpiti) {
+                izpit.listovka = _context.ListovkaModel.Where(l => l.id == izpit.listovkaId).SingleOrDefault();
+                izpit.kormuvane = _context.KormuvaneModel.Where(k => k.id == izpit.kormuvaneId).SingleOrDefault();
             }
-            return View(izpitModel);
+            return View(izpiti);
         }
 
         // GET: IzpitModels/Edit/5
