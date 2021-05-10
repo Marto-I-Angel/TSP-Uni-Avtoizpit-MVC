@@ -33,5 +33,6 @@ namespace TSP_Uni_Listovki.Data
         public DbSet<Listovki_TSP_Uni.Models.ListovkaModel> ListovkaModel { get; set; }
         public DbSet<Listovki_TSP_Uni.Models.VuprosiZaListovka> VuprosiZaListovka { get; set; }
         public DbSet<Listovki_TSP_Uni.Models.IzpitModel> IzpitModel { get; set; }
+        public DbSet<Listovki_TSP_Uni.Models.KormuvaneModel> KormuvaneModel { get; set; }
     }
 }

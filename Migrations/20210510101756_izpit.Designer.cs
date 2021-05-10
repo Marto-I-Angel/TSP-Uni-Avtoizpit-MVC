@@ -10,8 +10,8 @@ using TSP_Uni_Listovki.Data;
 namespace TSP_Uni_Listovki.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210501122938_listovka")]
-    partial class listovka
+    [Migration("20210510101756_izpit")]
+    partial class izpit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,52 @@ namespace TSP_Uni_Listovki.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.IzpitModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("kormuvaneId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("listovkaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("kormuvaneId");
+
+                    b.HasIndex("listovkaId");
+
+                    b.ToTable("IzpitModel");
+                });
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.KormuvaneModel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("chasoveKarani")
+                        .HasColumnType("int");
+
+                    b.Property<string>("instruktor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("izpitvasht")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("tochki")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.ToTable("KormuvaneModel");
+                });
 
             modelBuilder.Entity("Listovki_TSP_Uni.Models.ListovkaModel", b =>
                 {
@@ -273,6 +319,21 @@ namespace TSP_Uni_Listovki.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Listovki_TSP_Uni.Models.IzpitModel", b =>
+                {
+                    b.HasOne("Listovki_TSP_Uni.Models.KormuvaneModel", "kormuvane")
+                        .WithMany()
+                        .HasForeignKey("kormuvaneId");
+
+                    b.HasOne("Listovki_TSP_Uni.Models.ListovkaModel", "listovka")
+                        .WithMany()
+                        .HasForeignKey("listovkaId");
+
+                    b.Navigation("kormuvane");
+
+                    b.Navigation("listovka");
                 });
 
             modelBuilder.Entity("Listovki_TSP_Uni.Models.ListovkaModel", b =>

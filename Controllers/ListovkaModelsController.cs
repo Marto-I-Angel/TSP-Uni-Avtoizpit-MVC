@@ -127,51 +127,37 @@ namespace TSP_Uni_Listovki.Controllers
             return vuprosi;
         }
 
-
-        // GET: ListovkaModels/Create
-        /*public IActionResult Create()
+        public async Task<IActionResult> Create(int? izpitId)
         {
-            return View();
-        }
-        */
-        // POST: ListovkaModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public async Task<IActionResult> Create() //[Bind("id,timestamp,tochki")] ListovkaModel listovkaModel
-        {
-           /* if (ModelState.IsValid)
-            {
-           */
             //Vsichki vuprosi
-                var all = _context.VuprosModel.ToList();
+            var all = _context.VuprosModel.ToList();
 
-                var listovka = generateListovka(all);
-                ListovkaModel listovkaModel = new ListovkaModel();
+            var listovka = generateListovka(all);
+            ListovkaModel listovkaModel = new ListovkaModel();
 
-                listovkaModel.timestamp = DateTime.Now;
-                listovkaModel.tochki = 0;
-                var user = User.Identity;
+            listovkaModel.timestamp = DateTime.Now;
+            listovkaModel.tochki = 0;
+            var user = User.Identity;
 
-                _context.Add(listovkaModel);
-                await _context.SaveChangesAsync();
+            _context.Add(listovkaModel);
+            await _context.SaveChangesAsync();
+
+            foreach (VuprosModel vupros in listovka)
+            {
+                VuprosiZaListovka vuprosiZaListovka = new VuprosiZaListovka();
+                vuprosiZaListovka.ListovkaID = listovkaModel.id;
+                vuprosiZaListovka.VuprosId = vupros.id;
+                _context.Add(vuprosiZaListovka);
+            }
+
+            if (izpitId.HasValue) {             
+                _context.IzpitModel.Where(p => p.id == izpitId).Single().listovkaId = listovkaModel.id;
+            }
+
+            await _context.SaveChangesAsync();
 
 
-
-                foreach (VuprosModel vupros in listovka)
-                {
-                    VuprosiZaListovka vuprosiZaListovka = new VuprosiZaListovka();
-                    vuprosiZaListovka.ListovkaID = listovkaModel.id;
-                    vuprosiZaListovka.VuprosId = vupros.id;
-                    _context.Add(vuprosiZaListovka);
-                }
-
-                await _context.SaveChangesAsync();
-
-
-            return Redirect(nameof(Reshavane) + "/" + listovkaModel.id.ToString()); ;
-            /*}
-            return View(listovkaModel);
-            */
+            return Redirect(nameof(Reshavane) + "/" + listovkaModel.id.ToString());
         }
 
         private List<VuprosModel> generateListovka(List<VuprosModel> all)
@@ -220,7 +206,6 @@ namespace TSP_Uni_Listovki.Controllers
 
             return listovka;
         }
-
 
         public void Shuffle<T>(IList<T> list)
         {

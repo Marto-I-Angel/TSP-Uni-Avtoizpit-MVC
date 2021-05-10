@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Listovki_TSP_Uni.Models.IzpitModel>
+
+@{
+    ViewData["Title"] = "Изпити";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Кормуване</th>
+                <th>Точки от Листовка</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.listovka.timestamp)
+                    </td>
+                    <td>
+                        @if(item.kormuvane == null)
+                    {
+                        <div>
+                            няма информация
+                        </div>
+                    }else
+                        @Html.DisplayFor(modelItem => item.kormuvane.tochki)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.listovka.tochki)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.id">Детайли</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>"Нямате направени изпити."</div>
+}
+@if(Model.Any() || !Model.Where(v => v.listovka.tochki < 87).Any() ) { 
+    <div class="flex-container">
+        <a class="flex btn-dark" asp-action="Create">Нов Изпит</a>
+    </div>
+}
+
+

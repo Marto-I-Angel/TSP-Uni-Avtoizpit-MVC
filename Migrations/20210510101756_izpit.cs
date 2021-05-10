@@ -3,12 +3,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TSP_Uni_Listovki.Migrations
 {
-    public partial class listovka : Migration
+    public partial class izpit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "Identity");
+
+            migrationBuilder.CreateTable(
+                name: "KormuvaneModel",
+                schema: "Identity",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    izpitvasht = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    instruktor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    tochki = table.Column<int>(type: "int", nullable: false),
+                    chasoveKarani = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KormuvaneModel", x => x.id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Role",
@@ -190,6 +207,35 @@ namespace TSP_Uni_Listovki.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IzpitModel",
+                schema: "Identity",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    listovkaId = table.Column<int>(type: "int", nullable: true),
+                    kormuvaneId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IzpitModel", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_IzpitModel_KormuvaneModel_kormuvaneId",
+                        column: x => x.kormuvaneId,
+                        principalSchema: "Identity",
+                        principalTable: "KormuvaneModel",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_IzpitModel_ListovkaModel_listovkaId",
+                        column: x => x.listovkaId,
+                        principalSchema: "Identity",
+                        principalTable: "ListovkaModel",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "VuprosiZaListovka",
                 schema: "Identity",
                 columns: table => new
@@ -217,6 +263,18 @@ namespace TSP_Uni_Listovki.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IzpitModel_kormuvaneId",
+                schema: "Identity",
+                table: "IzpitModel",
+                column: "kormuvaneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IzpitModel_listovkaId",
+                schema: "Identity",
+                table: "IzpitModel",
+                column: "listovkaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ListovkaModel_userId",
@@ -286,6 +344,10 @@ namespace TSP_Uni_Listovki.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "IzpitModel",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
                 name: "OtgovorModel",
                 schema: "Identity");
 
@@ -303,6 +365,10 @@ namespace TSP_Uni_Listovki.Migrations
 
             migrationBuilder.DropTable(
                 name: "VuprosiZaListovka",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "KormuvaneModel",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
