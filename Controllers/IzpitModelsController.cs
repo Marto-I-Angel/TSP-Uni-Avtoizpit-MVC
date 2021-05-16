@@ -27,7 +27,14 @@ namespace TSP_Uni_Listovki.Controllers
         [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.IzpitModel.ToListAsync());
+            var userId = _userManager.GetUserId(User);
+            var izpiti = _context.IzpitModel.Where(i => i.listovka.userId == userId).ToList();
+            foreach (var izpit in izpiti)
+            {
+                izpit.listovka = _context.ListovkaModel.Where(l => l.id == izpit.listovkaId).SingleOrDefault();
+                izpit.kormuvane = _context.KormuvaneModel.Where(k => k.id == izpit.kormuvaneId).SingleOrDefault();
+            }
+            return View(izpiti);
         }
 
         // GET: IzpitModels/Details/5
@@ -60,11 +67,10 @@ namespace TSP_Uni_Listovki.Controllers
             _context.Add(izpitModel);
             _context.SaveChanges();
 
-            //Request.RouteValues.Add("IzpitId", izpitModel.id);
-
             return RedirectToActionPreserveMethod("Create", "ListovkaModels",new { IzpitId = izpitModel.id });
         }
 
+        [Authorize(Policy = "User")]
         public IActionResult CheckExam()    //todo: copy the index, add buttons to redirect.
         {
             var userId = _userManager.GetUserId(User);
@@ -93,24 +99,29 @@ namespace TSP_Uni_Listovki.Controllers
             return View(izpitModel);
         }
 
-        // POST: IzpitModels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("id")] IzpitModel izpitModel)
+        public async Task<IActionResult> Edit(int id,string izpitvasht,string instructor,int tochki,int chasoveKarani)
         {
-            if (id != izpitModel.id)
-            {
-                return NotFound();
-            }
+            var izpitModel = _context.IzpitModel.Where(i => i.id == id).Single();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    KormuvaneModel kormuvane = new KormuvaneModel();
+                    kormuvane.instruktor = instructor;
+                    kormuvane.izpitvasht = izpitvasht;
+                    kormuvane.tochki = tochki;
+                    kormuvane.chasoveKarani = chasoveKarani;
+
+                    
+
+                    izpitModel.kormuvane = kormuvane;
+
                     _context.Update(izpitModel);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

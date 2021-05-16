@@ -13,18 +13,39 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>Дата</th>
+            <th>Кормуване</th>
+            <th>Точки от Листовка</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
+
         <tr>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                @Html.DisplayFor(modelItem => item.listovka.timestamp)
+            </td>
+            <td>
+                @if (item.kormuvane == null)
+                {
+                    <div>
+                        няма информация
+                    </div>
+                }
+                else
+                    @Html.DisplayFor(modelItem => item.kormuvane.tochki)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.listovka.tochki)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Добавяне на резултат от кормуване</a>
+            </td>
+            <td><!--todo:add info bout the kormuvane in details-->
+                <a asp-action="Details" asp-route-id="@item.id">Детайли</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

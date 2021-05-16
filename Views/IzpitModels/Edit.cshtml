@@ -14,6 +14,10 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
+            <input class="input-group-text" type="text" name="izpitvasht" placeholder="Изпитващ" />
+            <input class="input-group-text" type="text" name="instructor" placeholder="Инструктор" />
+            <input class="input-group-text" type="number" name="tochki" placeholder="Точки" />
+            <input class="input-group-text" type="number" name="chasoveKarani" placeholder="Часове Карани" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

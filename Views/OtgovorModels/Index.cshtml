@@ -4,25 +4,24 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<h1>Всички отговори</h1>
 <p>
-    <a asp-action="Create" asp-controller="VuprosModels">Create New</a>
+    <a asp-action="Create" asp-controller="VuprosModels">Създаване на нов въпрос</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                Съдържание
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.izobrajenie)
+                Изображение
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.veren)
+                Стойност
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Vupros)
+                За въпрос №:
             </th>
             <th></th>
         </tr>

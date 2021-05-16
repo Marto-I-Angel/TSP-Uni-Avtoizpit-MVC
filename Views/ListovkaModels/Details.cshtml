@@ -9,29 +9,71 @@
 <div>
     <h4>ListovkaModel</h4>
     <hr />
+    @if (Model.tochki > 0) {
     <dl class="row">
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.timestamp)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.timestamp)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.tochki)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.tochki)/97
-        </dd>
+        <h1>Резултат:</h1>
+        @if (Model.tochki < 87)
+        {
+            <h1>Не</h1>
+        }
+        else
+        {
+            <h2>Да!</h2>
+        }
+        <h2>Точки: @Model.tochki / 97</h2>
 
-         
+        <p>Правилни отговори на листовката</p>
 
+        <div class="border container">
+            @foreach (Listovki_TSP_Uni.Models.VuprosModel vupros in (List<Listovki_TSP_Uni.Models.VuprosModel>)ViewData["vuprosi"])
+            {
 
+                <div id="@vupros.id" class="border border-primary p-lg-5">
 
+                    <h2>@Html.DisplayFor(model => vupros.uslovie)</h2>
 
+                    @if (vupros.img != null)
+                    {
+                        <div class="container">
+                            <img src="~/Photos/@vupros.img" asp-append-version="true" class="img-thumbnail image" />
+                        </div>
+                    }
+                    <p>Точки: @Html.DisplayFor(model => vupros.tochki)</p>
+                    <p>Брой верни: @vupros.Otgovori.Where(o => o.veren).ToArray().Length </p>
 
+                    <input type="hidden" name="vuprosId" value="@vupros.id" />
+                    <!--izprashta informaciq za vuprosite i otbelqzanite otgovori-->
+                    <div class="flex-container">
+                        @foreach (Listovki_TSP_Uni.Models.OtgovorModel otgovor in vupros.Otgovori)
+                        {
+                            <label class="border flex clickable text-center p-lg-3">
+
+                                @Html.DisplayFor(x => otgovor.Content)
+                                @if (otgovor.izobrajenie != null)
+                                {
+                                    <img src="~/Photos/@otgovor.izobrajenie" asp-append-version="true" class="img-thumbnail" />
+                                }
+                                @Html.DisplayFor(x => otgovor.veren)
+                            </label>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </dl>
+    }
+    else
+            {
+                <h2>Тази листовка не е решена все още.</h2>
+            }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

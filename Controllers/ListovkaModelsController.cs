@@ -96,7 +96,7 @@ namespace TSP_Uni_Listovki.Controllers
 
                 _context.SaveChanges();
 
-                return RedirectToAction(nameof(Index)); //redirektvane kum stranica za pokazvane na pravilnite otgovori na listovkata.
+                return RedirectToAction(nameof(Details), new { id = id}); //redirektvane kum stranica za pokazvane na pravilnite otgovori na listovkata.
             }
             else 
             {   //Vzimane na vuprosite s tehnite otgovori ot bazata danni

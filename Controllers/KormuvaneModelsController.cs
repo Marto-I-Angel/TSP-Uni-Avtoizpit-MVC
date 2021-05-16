@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Listovki_TSP_Uni.Models;
 using TSP_Uni_Listovki.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TSP_Uni_Listovki.Controllers
 {
+    [Authorize(Policy = "Admin")]
     public class KormuvaneModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -45,10 +47,6 @@ namespace TSP_Uni_Listovki.Controllers
         {
             return View();
         }
-
-        // POST: KormuvaneModels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,izpitvasht,instruktor,tochki,chasoveKarani")] KormuvaneModel kormuvaneModel)
