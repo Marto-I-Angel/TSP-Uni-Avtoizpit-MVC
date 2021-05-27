@@ -4,34 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Детайли</h1>
 
 <div>
-    <h4>ListovkaModel</h4>
+    <h4>За решената листовка:</h4>
     <hr />
     @if (Model.tochki > 0) {
     <dl class="row">
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.timestamp)
+            Дата на листовката:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.timestamp)
         </dd>
-        <h1>Резултат:</h1>
-        @if (Model.tochki < 87)
-        {
-            <h1>Не</h1>
-        }
-        else
-        {
-            <h2>Да!</h2>
-        }
-        <h2>Точки: @Model.tochki / 97</h2>
+        <div class="m-5">
+            <div class="m-2">
+                <h1>Резултат:</h1>
+                @if (Model.tochki < 87)
+                {
+                    <h1>Не</h1>
+                }
+                else
+                {
+                    <h2>Да!</h2>
+                }
+            </div>
+            <h2>Точки: @Model.tochki / 97</h2>
+        </div>
 
-        <p>Правилни отговори на листовката</p>
 
         <div class="border container">
+            <h2>Правилни отговори на листовката:</h2>
             @foreach (Listovki_TSP_Uni.Models.VuprosModel vupros in (List<Listovki_TSP_Uni.Models.VuprosModel>)ViewData["vuprosi"])
             {
 
